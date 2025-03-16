@@ -181,7 +181,7 @@ router.post("/login", validator(loginSchema), async (req: Request, res: Response
 		.limit(1);
 
 	if (user.length === 0 || !(await bcrypt.compare(req.body.password, user[0].password))) {
-		res.status(400).send({ message: "Invalid username or password" });
+		res.status(400).send("Invalid username or password");
 		return;
 	}
 
