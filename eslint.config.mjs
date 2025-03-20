@@ -1,7 +1,7 @@
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
-import eslintConfigPrettier from "eslint-config-prettier";
-import globals from "globals";
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -15,14 +15,14 @@ export default tseslint.config(
       },
     },
     rules: {
-      eqeqeq: "warn",
-      "no-unused-vars": "error",
-      quotes: ["warn", "double"],
-      "semi": ["error", "always"],
-      "no-undef": "error",
-      "arrow-parens": ["error", "always"],
-      "@typescript-eslint/explicit-module-boundary-types": "warn",
-      "@typescript-eslint/no-unused-vars": ["error"]
+      eqeqeq: 'warn',
+      'no-unused-vars': 'error',
+      quotes: ['warn', 'single'],
+      'semi': ['error', 'always'],
+      'no-undef': 'error',
+      'arrow-parens': ['warn', 'always'],
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error']
     }
   }
 );

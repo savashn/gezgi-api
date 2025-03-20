@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
 interface DecodedToken {
 	id: number;
@@ -7,7 +7,7 @@ interface DecodedToken {
 	isAdmin: boolean;
 }
 
-declare module "express-serve-static-core" {
+declare module 'express-serve-static-core' {
 	interface Request {
 		user?: {
 			id: number;
@@ -18,7 +18,7 @@ declare module "express-serve-static-core" {
 }
 
 export async function allUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
-	const token = req.header("x-auth-token");
+	const token = req.header('x-auth-token');
 
 	if (!token) {
 		req.user = undefined;
@@ -29,13 +29,13 @@ export async function allUsers(req: Request, res: Response, next: NextFunction):
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
-		if (typeof decoded === "object" && decoded !== null && "id" in decoded) {
+		if (typeof decoded === 'object' && decoded !== null && 'id' in decoded) {
 			req.user = decoded as DecodedToken;
 		} else {
 			req.user = undefined;
 		}
 	} catch (err) {
-		console.log("Invalid JWT:", err);
+		console.log('Invalid JWT:', err);
 		req.user = undefined;
 	}
 
@@ -43,10 +43,10 @@ export async function allUsers(req: Request, res: Response, next: NextFunction):
 }
 
 export async function auth(req: Request, res: Response, next: NextFunction): Promise<void> {
-	const token = req.header("x-auth-token");
+	const token = req.header('x-auth-token');
 
 	if (!token) {
-		res.status(401).send("User is not allowed");
+		res.status(401).send('User is not allowed');
 		return;
 	}
 
@@ -56,15 +56,15 @@ export async function auth(req: Request, res: Response, next: NextFunction): Pro
 		next();
 	} catch (err) {
 		console.log(err);
-		res.status(400).send("Broken token");
+		res.status(400).send('Broken token');
 	}
 }
 
 export async function admin(req: Request, res: Response, next: NextFunction): Promise<void> {
-	const token = req.header("x-auth-token");
+	const token = req.header('x-auth-token');
 
 	if (!token) {
-		res.status(401).send("User is not allowed");
+		res.status(401).send('User is not allowed');
 		return;
 	}
 
@@ -72,7 +72,7 @@ export async function admin(req: Request, res: Response, next: NextFunction): Pr
 		const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string) as DecodedToken;
 
 		if (decodedToken.isAdmin === false) {
-			res.status(401).send("Only admin is allowed");
+			res.status(401).send('Only admin is allowed');
 			return;
 		}
 
@@ -80,6 +80,6 @@ export async function admin(req: Request, res: Response, next: NextFunction): Pr
 		next();
 	} catch (err) {
 		console.log(err);
-		res.status(400).send("Broken token");
+		res.status(400).send('Broken token');
 	}
 }
