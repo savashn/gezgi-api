@@ -77,7 +77,7 @@ describe('Get all teams', () => {
 		});
 	});
 
-	it("Should return only guide's teams", async () => {
+	it('Should return only guide\'s teams', async () => {
 		const response = await request(app)
 			.get('/teams')
 			.set('x-auth-token', process.env.GUIDE_TEST_TOKEN as string);
@@ -226,7 +226,7 @@ describe('Get a team only and its activities', () => {
 		testTouristId = res.body.tourist.id;
 	});
 
-	it("Should add a new tourist to existing team, but shouldn't create a new one", async () => {
+	it('Should add a new tourist to existing team, but shouldn\'t create a new one', async () => {
 		const testTourist = {
 			// id: testTouristId,  bu sorun oluyor, bunun yerine baştan bir gezgin daha eklemek gerek
 			id: 1,

@@ -160,7 +160,7 @@ export const putCities = async (req: Request, res: Response): Promise<void> => {
 	await db
 		.update(Cities)
 		.set({
-			city: req.body.city
+			city: req.body.value
 		})
 		.where(eq(Cities.id, req.body.id));
 
@@ -219,7 +219,7 @@ export const putNationalities = async (req: Request, res: Response): Promise<voi
 	await db
 		.update(Nationalities)
 		.set({
-			nationality: req.body.nationality
+			nationality: req.body.value
 		})
 		.where(eq(Nationalities.id, req.body.id));
 
@@ -230,7 +230,7 @@ export const putCurrencies = async (req: Request, res: Response): Promise<void> 
 	await db
 		.update(Currencies)
 		.set({
-			currency: req.body.currency
+			currency: req.body.value
 		})
 		.where(eq(Currencies.id, req.body.id));
 
@@ -241,7 +241,7 @@ export const putAirports = async (req: Request, res: Response): Promise<void> =>
 	await db
 		.update(Airports)
 		.set({
-			airport: req.body.airport
+			airport: req.body.value
 		})
 		.where(eq(Airports.id, req.body.id));
 
@@ -252,7 +252,7 @@ export const putLanguages = async (req: Request, res: Response): Promise<void> =
 	await db
 		.update(Languages)
 		.set({
-			language: req.body.language
+			language: req.body.value
 		})
 		.where(eq(Languages.id, req.body.id));
 
@@ -263,7 +263,7 @@ export const putGenders = async (req: Request, res: Response): Promise<void> => 
 	await db
 		.update(Genders)
 		.set({
-			gender: req.body.gender
+			gender: req.body.value
 		})
 		.where(eq(Genders.id, req.body.id));
 
@@ -274,7 +274,7 @@ export const putPaymentMethods = async (req: Request, res: Response): Promise<vo
 	await db
 		.update(PaymentMethods)
 		.set({
-			method: req.body.method
+			method: req.body.value
 		})
 		.where(eq(PaymentMethods.id, req.body.id));
 

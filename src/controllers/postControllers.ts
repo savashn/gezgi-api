@@ -3,7 +3,6 @@ import { drizzle } from 'drizzle-orm/vercel-postgres';
 import bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
-import { z } from 'zod';
 import {
 	Activities,
 	Airports,
@@ -193,13 +192,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const postCity = async (req: Request, res: Response): Promise<void> => {
-	if (req.user?.isAdmin === false) {
-		res.status(400).send('Not allowed');
-		return;
-	}
-
 	const city: typeof Cities.$inferInsert = {
-		city: req.body.city
+		city: req.body.value
 	};
 
 	const response = await db.insert(Cities).values(city);
@@ -254,7 +248,7 @@ export const postVehicle = async (req: Request, res: Response): Promise<void> =>
 
 export const postNationality = async (req: Request, res: Response): Promise<void> => {
 	const nationality: typeof Nationalities.$inferInsert = {
-		nationality: req.body.nationality
+		nationality: req.body.value
 	};
 
 	const response = await db.insert(Nationalities).values(nationality);
@@ -264,7 +258,7 @@ export const postNationality = async (req: Request, res: Response): Promise<void
 
 export const postCurrency = async (req: Request, res: Response): Promise<void> => {
 	const currency: typeof Currencies.$inferInsert = {
-		currency: req.body.currency
+		currency: req.body.value
 	};
 
 	const response = await db.insert(Currencies).values(currency);
@@ -274,7 +268,7 @@ export const postCurrency = async (req: Request, res: Response): Promise<void> =
 
 export const postAirport = async (req: Request, res: Response): Promise<void> => {
 	const airport: typeof Airports.$inferInsert = {
-		airport: req.body.airport
+		airport: req.body.value
 	};
 
 	const response = await db.insert(Airports).values(airport);
@@ -284,10 +278,13 @@ export const postAirport = async (req: Request, res: Response): Promise<void> =>
 
 export const postLanguage = async (req: Request, res: Response): Promise<void> => {
 	const language: typeof Languages.$inferInsert = {
-		language: req.body.language
+		language: req.body.value
 	};
 
 	const response = await db.insert(Languages).values(language);
+
+	console.log(response);
+	console.log(req.body);
 
 	res.send(response);
 };
@@ -307,7 +304,7 @@ export const postTour = async (req: Request, res: Response): Promise<void> => {
 
 export const postPaymentMethod = async (req: Request, res: Response): Promise<void> => {
 	const method: typeof PaymentMethods.$inferInsert = {
-		method: req.body.method
+		method: req.body.value
 	};
 
 	const newMethod = await db.insert(PaymentMethods).values(method).returning();
@@ -316,11 +313,8 @@ export const postPaymentMethod = async (req: Request, res: Response): Promise<vo
 };
 
 export const postGender = async (req: Request, res: Response): Promise<void> => {
-	const genderSchema = z.string();
-	genderSchema.parse(req.body.gender);
-
 	const gender: typeof Genders.$inferInsert = {
-		gender: req.body.gender
+		gender: req.body.value
 	};
 
 	const newGender = await db.insert(Genders).values(gender).returning();

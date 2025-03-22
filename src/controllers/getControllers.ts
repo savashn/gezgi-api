@@ -395,7 +395,11 @@ export const getMain = async (req: Request, res: Response): Promise<void> => {
 	const page = parseInt((req.query.page as string) || '1', 10);
 	const pageSize = parseInt((req.query.pageSize as string) || '5', 10);
 
-	const teamCount = await db.select({ count: count() }).from(Teams);
+	const teamCount = await db
+		.select({ count: count() })
+		.from(Teams)
+		.leftJoin(Guides, eq(Teams.guideId, Guides.id))
+		.where(req.user.isAdmin === false ? eq(Teams.guideId, req.user.id) : undefined);
 
 	const totalCount = teamCount[0];
 
