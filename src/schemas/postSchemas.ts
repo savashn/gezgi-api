@@ -70,10 +70,10 @@ export const activitySchema = z.object({
 	activity: z.string(),
 	activityTime: z.string(),
 	teamId: z.number().int(),
-	hotelId: z.number().int().optional(),
-	plateOfVehicleId: z.number().int().optional(),
+	hotelId: z.number().int().nullable().optional(),
+	companyOfVehicleId: z.number().int().nullable().optional(),
+	plateOfVehicle: z.string().optional(),
 	contactOfDriver: z.string().optional(),
-	companyOfVehicle: z.number().int().optional(),
 	restaurantId: z.number().int().optional(),
 	airportId: z.number().int().optional()
 });

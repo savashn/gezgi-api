@@ -64,9 +64,9 @@ export const putActivities = async (req: Request, res: Response): Promise<void> 
 			activity: req.body.activity,
 			activityTime: req.body.activityTime,
 			hotelId: req.body.hotelId,
-			plateOfVehicle: req.body.plateIfVehicle,
+			plateOfVehicle: req.body.plateOfVehicle,
 			contactOfDriver: req.body.contactOfDriver,
-			companyOfVehicle: req.body.companyOfVehicle,
+			companyOfVehicle: req.body.companyOfVehicleId,
 			restaurantId: req.body.restaurantId,
 			airportId: req.body.airportId
 		})
@@ -110,34 +110,36 @@ export const putTourists = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const putGuides = async (req: Request, res: Response): Promise<void> => {
-	const hashedPassword = await bcrypt.hash(req.body.password, 10);
 	const id: number = parseInt(req.params.id, 10);
 
-	const updated = await db
-		.update(Guides)
-		.set({
-			name: req.body.name,
-			username: req.body.username,
-			password: hashedPassword,
-			languageId: req.body.languageId,
-			birth: req.body.birth,
-			nationalityId: req.body.nationalityId,
-			passportNo: req.body.passportNo,
-			email: req.body.email,
-			phone: req.body.phone,
-			intimate: req.body.intimate,
-			intimacy: req.body.intimacy,
-			intimatePhone: req.body.intimatePhone,
-			isAdmin: req.body.isAdmin
-		})
-		.where(eq(Guides.id, id))
-		.returning();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const updateData: any = {
+		name: req.body.name,
+		username: req.body.username,
+		languageId: req.body.languageId,
+		birth: req.body.birth,
+		nationalityId: req.body.nationalityId,
+		passportNo: req.body.passportNo,
+		email: req.body.email,
+		phone: req.body.phone,
+		intimate: req.body.intimate,
+		intimacy: req.body.intimacy,
+		intimatePhone: req.body.intimatePhone,
+		isAdmin: req.body.isAdmin
+	};
+
+	if (req.body.password) {
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		updateData.password = hashedPassword;
+	}
+
+	const updated = await db.update(Guides).set(updateData).where(eq(Guides.id, id)).returning();
 
 	if (updated.length > 0) {
-		res.send('The guide has been updated successfuly!');
+		res.send('The guide has been updated successfully!');
 		return;
 	} else {
-		res.status(500).send('An error has occured');
+		res.status(500).send('An error has occurred');
 		return;
 	}
 };

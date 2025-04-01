@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsc && node dist/index.js",
+    "start": "vercel dev",
     "push": "npx drizzle-kit push",
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles",
     "test:watch": "jest --watchAll",
-    "lint": "eslint .",
+    "lint": "prettier --check . && eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",

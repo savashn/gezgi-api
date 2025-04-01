@@ -113,17 +113,19 @@ export const getTeam = async (req: Request, res: Response): Promise<void> => {
 	}
 
 	if (req.user && req.user.isAdmin === true) {
-		const tours = await db.select().from(Tours);
-		const guides = await db.select().from(Guides);
-		const airports = await db.select().from(Airports);
-		const restaurants = await db.select().from(Restaurants);
-		const vehicles = await db
-			.select({
-				id: Vehicles.id,
-				company: Vehicles.company
-			})
-			.from(Vehicles);
-		const housings = await db.select().from(Housings);
+		const [tours, guides, airports, restaurants, housings, vehicles] = await Promise.all([
+			db.select().from(Tours),
+			db.select().from(Guides),
+			db.select().from(Airports),
+			db.select().from(Restaurants),
+			db.select().from(Housings),
+			db
+				.select({
+					id: Vehicles.id,
+					company: Vehicles.company
+				})
+				.from(Vehicles)
+		]);
 
 		res.send({
 			team,

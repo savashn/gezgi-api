@@ -73,14 +73,13 @@ export const postActivity = async (req: Request, res: Response): Promise<void> =
 		activityTime: req.body.activityTime,
 		hotelId: req.body.hotelId,
 		plateOfVehicle: req.body.plateOfVehicle,
-		companyOfVehicle: req.body.companyOfVehicle,
+		companyOfVehicle: req.body.companyOfVehicleId,
 		contactOfDriver: req.body.contactOfDriver,
 		restaurantId: req.body.restaurantId,
 		airportId: req.body.airportId
 	};
 
 	const response = await db.insert(Activities).values(activity).returning({ id: Activities.id });
-
 	res.status(201).json({ id: response[0].id });
 };
 

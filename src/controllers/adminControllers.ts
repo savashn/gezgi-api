@@ -29,31 +29,33 @@ export const adminTeam = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const adminActivity = async (req: Request, res: Response): Promise<void> => {
-	const housing = await db
-		.select({
-			id: Housings.id,
-			city: Cities.city
-		})
-		.from(Housings)
-		.innerJoin(Cities, eq(Housings.cityId, Cities.id));
+	const [housing, restaurant, vehicles, airports] = await Promise.all([
+		db
+			.select({
+				id: Housings.id,
+				city: Cities.city
+			})
+			.from(Housings)
+			.innerJoin(Cities, eq(Housings.cityId, Cities.id)),
 
-	const restaurant = await db
-		.select({
-			id: Restaurants.id,
-			restaurants: Restaurants.restaurant,
-			city: Cities.city
-		})
-		.from(Restaurants)
-		.innerJoin(Cities, eq(Restaurants.cityId, Cities.id));
+		db
+			.select({
+				id: Restaurants.id,
+				restaurants: Restaurants.restaurant,
+				city: Cities.city
+			})
+			.from(Restaurants)
+			.innerJoin(Cities, eq(Restaurants.cityId, Cities.id)),
 
-	const vehicles = await db
-		.select({
-			id: Vehicles.id,
-			company: Vehicles.company
-		})
-		.from(Vehicles);
+		db
+			.select({
+				id: Vehicles.id,
+				company: Vehicles.company
+			})
+			.from(Vehicles),
 
-	const airports = await db.select().from(Airports);
+		db.select().from(Airports)
+	]);
 
 	const response = {
 		housing,
